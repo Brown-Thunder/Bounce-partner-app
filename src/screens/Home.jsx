@@ -2,6 +2,16 @@ import { useNavigate } from 'react-router-dom'
 import Layout from '../components/Layout'
 import Header from '../components/Header'
 
+const BounceLogo = () => (
+  <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+    <svg width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <circle cx="14" cy="14" r="14" fill="#FF6B35"/>
+      <path d="M9 8h4.5c2.5 0 4 1.2 4 3.2 0 1.2-.6 2-1.5 2.5 1.2.4 2 1.4 2 2.8 0 2.2-1.6 3.5-4.2 3.5H9V8zm2 3.5v2.2h2.2c1 0 1.6-.4 1.6-1.1 0-.8-.6-1.1-1.6-1.1H11zm0 4.6v2.4h2.4c1.1 0 1.8-.5 1.8-1.2 0-.8-.7-1.2-1.8-1.2H11z" fill="white"/>
+    </svg>
+    <span style={{ fontSize: 20, fontWeight: 800, color: '#FF6B35', letterSpacing: -0.5 }}>bounce</span>
+  </div>
+)
+
 export default function Home() {
   const navigate = useNavigate()
   const BellIcon = () => (
@@ -15,14 +25,14 @@ export default function Home() {
   )
   return (
     <Layout>
-      <Header title={<span style={{ fontSize: 22, fontWeight: 800, color: '#FF6B35' }}>bounce</span>} rightContent={<BellIcon />} />
+      <Header title={<BounceLogo />} rightContent={<BellIcon />} />
       <div style={{ padding: '16px' }}>
         <div style={{ marginBottom: 16 }}>
           <h1 style={{ fontSize: 24, fontWeight: 700, color: '#1A1A1A' }}>Hi, Amit! 👋</h1>
         </div>
         <div style={{ display: 'flex', gap: 8, marginBottom: 16 }}>
           <button onClick={() => navigate('/store/signage')} style={{ background: '#F5F5F5', border: 'none', borderRadius: 20, padding: '8px 14px', fontSize: 13, fontWeight: 500, cursor: 'pointer' }}>📶 Link Signage</button>
-          <button style={{ background: '#F5F5F5', border: 'none', borderRadius: 20, padding: '8px 14px', fontSize: 13, fontWeight: 500, cursor: 'pointer' }}>📅 Add Holidays</button>
+          <button style={{ background: '#F5F5F5', border: 'none', borderRadius: 20, padding: '8px 14px', fontSize: 13, fontWeight: 500, cursor: 'pointer' }}>📅 Add Holidays/Vacations</button>
         </div>
         <div className="card" style={{ marginBottom: 12 }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 12 }}>
@@ -38,10 +48,11 @@ export default function Home() {
           <button onClick={() => navigate('/boosts/5')} style={{ background: 'white', color: '#FF6B35', border: 'none', borderRadius: 8, padding: '8px 14px', fontSize: 13, fontWeight: 700, cursor: 'pointer', flexShrink: 0 }}>Activate</button>
         </div>
         <div style={{ marginBottom: 16 }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 12 }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 4 }}>
             <span className="section-header" style={{ margin: 0 }}>Pending Tasks</span>
             <span style={{ background: '#FF6B35', color: 'white', borderRadius: '50%', width: 20, height: 20, fontSize: 12, fontWeight: 700, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>2</span>
           </div>
+          <div style={{ fontSize: 13, color: '#757575', marginBottom: 12, lineHeight: 1.4 }}>Complete all tasks to unlock benefits and boost your earnings!</div>
           <div className="card" style={{ marginBottom: 10 }}>
             <div style={{ display: 'flex', gap: 12 }}>
               <span style={{ fontSize: 24, flexShrink: 0 }}>🏷️</span>
@@ -63,7 +74,7 @@ export default function Home() {
             </div>
           </div>
         </div>
-        <button onClick={() => navigate('/check-in-out')} className="btn-blue" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8 }}>
+        <button onClick={() => navigate('/check-in-out')} className="btn-blue" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8, marginBottom: 4 }}>
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><rect x="3" y="3" width="18" height="18" rx="2" stroke="white" strokeWidth="2"/><path d="M7 7H10V10H7ZM14 7H17V10H14ZM7 14H10V17H7ZM14 14V17M17 14H14V17H17" stroke="white" strokeWidth="1.5"/></svg>
           Check in / out
         </button>

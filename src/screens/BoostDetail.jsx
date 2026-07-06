@@ -21,13 +21,24 @@ export default function BoostDetail() {
   return (
     <Layout showNav={false}>
       <Header title={boost.name} showBack rightContent={<CloseButton />} />
-      <div style={{ height: 160, background: 'linear-gradient(135deg, #EDE7F6, #D1C4E9)', display: 'flex', alignItems: 'center', justifyContent: 'center', position: 'relative', flexShrink: 0 }}>
-        {isLocked ? (
-          <div style={{ position: 'absolute', inset: 0, background: 'rgba(0,0,0,0.25)', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: 8 }}>
-            <span style={{ fontSize: 64 }}>{boost.emoji}</span>
-            <span style={{ fontSize: 32 }}>🔒</span>
+      <div style={{ height: 180, background: isLocked ? 'linear-gradient(135deg, #F0EDF5, #E0D8ED)' : isActive ? 'linear-gradient(135deg, #E8F5E9, #C8E6C9)' : 'linear-gradient(135deg, #FFF3ED, #FFE0CC)', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', position: 'relative', flexShrink: 0, gap: 8 }}>
+        <span style={{ fontSize: 56 }}>{boost.emoji}</span>
+        {isLocked && (
+          <div style={{ display: 'flex', alignItems: 'center', gap: 6, background: 'white', borderRadius: 20, padding: '4px 12px', boxShadow: '0 2px 8px rgba(0,0,0,0.12)' }}>
+            <span style={{ fontSize: 14 }}>🔒</span>
+            <span style={{ fontSize: 13, fontWeight: 700, color: '#D32F2F' }}>LOCKED</span>
           </div>
-        ) : <span style={{ fontSize: 64 }}>{boost.emoji}</span>}
+        )}
+        {isActive && (
+          <div style={{ display: 'flex', alignItems: 'center', gap: 6, background: 'white', borderRadius: 20, padding: '4px 12px', boxShadow: '0 2px 8px rgba(0,0,0,0.12)' }}>
+            <span style={{ fontSize: 13, fontWeight: 700, color: '#2E7D32' }}>✓ ACTIVE</span>
+          </div>
+        )}
+        {isReady && (
+          <div style={{ display: 'flex', alignItems: 'center', gap: 6, background: 'white', borderRadius: 20, padding: '4px 12px', boxShadow: '0 2px 8px rgba(0,0,0,0.12)' }}>
+            <span style={{ fontSize: 13, fontWeight: 700, color: '#FF6B35' }}>ACTIVATE</span>
+          </div>
+        )}
       </div>
       <div style={{ padding: '20px 16px', paddingBottom: 90 }}>
         <div style={{ marginBottom: 20 }}>
@@ -37,7 +48,7 @@ export default function BoostDetail() {
             <div style={{ marginTop: 12 }}>
               {boost.previewFeatures.map(f => (
                 <div key={f} style={{ display: 'flex', alignItems: 'center', gap: 8, padding: '6px 0' }}>
-                  <span style={{ color: '#FF6B35', fontSize: 16 }}>→</span>
+                  <span style={{ color: '#2E7D32', fontSize: 14, fontWeight: 600 }}>✓</span>
                   <span style={{ fontSize: 14 }}>{f}</span>
                 </div>
               ))}
@@ -69,7 +80,12 @@ export default function BoostDetail() {
       <div style={{ position: 'fixed', bottom: 0, left: '50%', transform: 'translateX(-50%)', width: '100%', maxWidth: 390, padding: '16px', background: 'white', borderTop: '1px solid #E8E8E8' }}>
         {isActive && <button className="btn-green" disabled style={{ opacity: 0.9 }}>✓ Active</button>}
         {isReady && <button className="btn-orange">Activate Boost</button>}
-        {isLocked && <button className="btn-grey" disabled>🔒 Locked — Meet requirements to unlock</button>}
+        {isLocked && (
+          <button className="btn-grey" disabled style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 2, height: 'auto', paddingTop: 12, paddingBottom: 12 }}>
+            <span>Locked</span>
+            <span style={{ fontSize: 12, fontWeight: 400 }}>Meet requirements to unlock</span>
+          </button>
+        )}
       </div>
     </Layout>
   )

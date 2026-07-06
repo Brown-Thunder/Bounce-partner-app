@@ -65,7 +65,7 @@ function PayoutDetailsTab() {
 export default function Earnings() {
   const [tab, setTab] = useState('Overview')
   return (
-    <Layout showNav={false}>
+    <Layout>
       <Header title="Earnings" showBack />
       <div className="sub-tabs">
         {['Overview', 'Earning details', 'Payout details'].map(t => (

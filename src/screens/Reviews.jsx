@@ -3,7 +3,7 @@ import Header from '../components/Header'
 
 export default function Reviews() {
   return (
-    <Layout showNav={false}>
+    <Layout>
       <Header title="Reviews" showBack />
       <div style={{ padding: 16 }}>
         <div style={{ fontSize: 17, fontWeight: 700, marginBottom: 16 }}>The Old Bakery Cafe</div>

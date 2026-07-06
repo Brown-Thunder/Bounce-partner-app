@@ -20,10 +20,9 @@ function OverviewTab() {
       <div className="card" style={{ marginBottom: 16 }}>
         <div style={{ fontSize: 15, fontWeight: 700, marginBottom: 12 }}>Store commissions</div>
         <div style={{ fontSize: 12, fontWeight: 600, color: '#757575', textTransform: 'uppercase', marginBottom: 8 }}>Online Bookings</div>
-        {[{ label: 'Small bag stored', value: '£1.50 per bag' }, { label: 'Regular bag stored', value: '£2.50 per bag' }, { label: 'Odd-sized item', value: '£3.75 per item' }].map(row => (
-          <div key={row.label} style={{ display: 'flex', justifyContent: 'space-between', padding: '9px 0', borderBottom: '1px solid #F5F5F5' }}>
-            <span style={{ fontSize: 14 }}>{row.label}</span>
-            <span style={{ fontSize: 14, fontWeight: 600 }}>{row.value}</span>
+        {['£1.50 per small bag stored', '£2.50 per regular bag stored', '£3.75 per odd-sized item stored'].map(row => (
+          <div key={row} style={{ display: 'flex', alignItems: 'center', padding: '9px 0', borderBottom: '1px solid #F5F5F5' }}>
+            <span style={{ fontSize: 14 }}>{row}</span>
           </div>
         ))}
         <div style={{ fontSize: 12, fontWeight: 600, color: '#757575', textTransform: 'uppercase', margin: '12px 0 8px' }}>Walk-in Bookings</div>
@@ -34,6 +33,7 @@ function OverviewTab() {
         <div style={{ fontSize: 12, color: '#9E9E9E', marginTop: 6 }}>(excl. service fee)</div>
       </div>
       <div className="card" style={{ marginBottom: 16 }}>
+        <div style={{ fontSize: 13, fontWeight: 600, color: '#757575', textTransform: 'uppercase', letterSpacing: 0.5, marginBottom: 10 }}>Contact info</div>
         <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
           <span style={{ fontSize: 18 }}>📞</span>
           <span style={{ fontSize: 15 }}>{storeData.phone}</span>
@@ -71,14 +71,16 @@ function PhotosTab() {
   const navigate = useNavigate()
   return (
     <div style={{ padding: 16 }}>
+      <div style={{ fontSize: 15, fontWeight: 700, marginBottom: 12 }}>Location photos</div>
       <div style={{ background: '#E3F2FD', borderRadius: 10, padding: 14, marginBottom: 16 }}>
-        <div style={{ fontSize: 14, color: '#1565C0', lineHeight: 1.5, marginBottom: 8 }}>Partners with storefront photos are preferred by customers and receive higher reviews on average.</div>
+        <div style={{ fontSize: 14, color: '#1565C0', lineHeight: 1.5, marginBottom: 8 }}>Partners with storefront photos are preferred by customers and receive higher reviews on average. Add yours to help increase bookings.</div>
         <button onClick={() => navigate('/store/photos/tutorial')} style={{ background: 'none', border: 'none', color: '#FF6B35', fontSize: 14, fontWeight: 600, cursor: 'pointer', padding: 0 }}>Review photo guidelines</button>
       </div>
       <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10, marginBottom: 16 }}>
         {[1, 2].map(i => (
-          <div key={i} style={{ position: 'relative', borderRadius: 10, overflow: 'hidden', aspectRatio: '4/3', background: '#F5F5F5', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+          <div key={i} style={{ position: 'relative', borderRadius: 10, overflow: 'hidden', aspectRatio: '4/3', background: '#F0EBE3', display: 'flex', alignItems: 'center', justifyContent: 'center', flexDirection: 'column', gap: 4 }}>
             <span style={{ fontSize: 32 }}>☕</span>
+            <span style={{ fontSize: 10, color: '#757575', textAlign: 'center', padding: '0 8px' }}>The Old Bakery Cafe</span>
             <div style={{ position: 'absolute', bottom: 6, left: 6, background: '#E8F5E9', color: '#2E7D32', borderRadius: 20, padding: '2px 8px', fontSize: 11, fontWeight: 600 }}>✓ Approved</div>
           </div>
         ))}
@@ -152,14 +154,14 @@ export default function Store() {
     <Layout>
       <Header title={storeData.name} rightContent={<EditIcon />} />
       <div className="sub-tabs">
-        {['Overview', 'Hours', 'Photos', 'QR Code'].map(t => (
-          <div key={t} className={`sub-tab ${tab === t ? 'active' : ''}`} onClick={() => setTab(t)} style={{ fontSize: 13 }}>{t}</div>
+        {['Overview', 'Hours', 'Photos', 'Store QR code'].map(t => (
+          <div key={t} className={`sub-tab ${tab === t ? 'active' : ''}`} onClick={() => setTab(t)} style={{ fontSize: 12 }}>{t}</div>
         ))}
       </div>
       {tab === 'Overview' && <OverviewTab />}
       {tab === 'Hours' && <HoursTab />}
       {tab === 'Photos' && <PhotosTab />}
-      {tab === 'QR Code' && <QRCodeTab />}
+      {tab === 'Store QR code' && <QRCodeTab />}
     </Layout>
   )
 }
