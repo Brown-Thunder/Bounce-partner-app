@@ -241,3 +241,36 @@ export const IconCalendarPlus = ({ size = 20, color = '#16151C', strokeWidth = 1
     <path d="M12 13V18M9.5 15.5H14.5" stroke={color} strokeWidth={strokeWidth} strokeLinecap="round"/>
   </svg>
 )
+
+export const IconCalendar = ({ size = 20, color = '#16151C', strokeWidth = 1.7 }) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" {...base}>
+    <rect x="3" y="5" width="18" height="16" rx="2" stroke={color} strokeWidth={strokeWidth}/>
+    <path d="M16 3V7M8 3V7M3 10H21" stroke={color} strokeWidth={strokeWidth} strokeLinecap="round"/>
+  </svg>
+)
+
+export const IconChevronDown = ({ size = 16, color = '#16151C', strokeWidth = 2 }) => (
+  <svg width={size} height={size} viewBox="0 0 16 16" {...base}>
+    <path d="M4 6L8 10L12 6" stroke={color} strokeWidth={strokeWidth} strokeLinecap="round" strokeLinejoin="round"/>
+  </svg>
+)
+
+export const IconAlert = ({ size = 20, color = '#C4432B', strokeWidth = 1.7 }) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" {...base}>
+    <circle cx="12" cy="12" r="9" stroke={color} strokeWidth={strokeWidth}/>
+    <path d="M12 7.5V13" stroke={color} strokeWidth={strokeWidth} strokeLinecap="round"/>
+    <circle cx="12" cy="16.3" r="1.1" fill={color}/>
+  </svg>
+)
+
+export const IconPlus = ({ size = 20, color = '#5B4FE5', strokeWidth = 2 }) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" {...base}>
+    <path d="M12 5V19M5 12H19" stroke={color} strokeWidth={strokeWidth} strokeLinecap="round"/>
+  </svg>
+)
+
+export const IconChevronUp = ({ size = 16, color = '#16151C', strokeWidth = 2 }) => (
+  <svg width={size} height={size} viewBox="0 0 16 16" {...base}>
+    <path d="M4 10L8 6L12 10" stroke={color} strokeWidth={strokeWidth} strokeLinecap="round" strokeLinejoin="round"/>
+  </svg>
+)
