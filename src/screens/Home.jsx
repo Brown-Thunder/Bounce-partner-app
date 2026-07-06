@@ -1,82 +1,139 @@
+import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import Layout from '../components/Layout'
 import Header from '../components/Header'
+import { IconChat, IconBell, IconTag, IconClock, IconGrid, IconBank } from '../components/icons'
 
-const BounceLogo = () => (
-  <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
-    <svg width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <circle cx="14" cy="14" r="14" fill="#FF6B35"/>
-      <path d="M9 8h4.5c2.5 0 4 1.2 4 3.2 0 1.2-.6 2-1.5 2.5 1.2.4 2 1.4 2 2.8 0 2.2-1.6 3.5-4.2 3.5H9V8zm2 3.5v2.2h2.2c1 0 1.6-.4 1.6-1.1 0-.8-.6-1.1-1.6-1.1H11zm0 4.6v2.4h2.4c1.1 0 1.8-.5 1.8-1.2 0-.8-.7-1.2-1.8-1.2H11z" fill="white"/>
+const ProgressRing = ({ value, total, size = 56 }) => {
+  const stroke = 7
+  const r = (size - stroke) / 2
+  const c = 2 * Math.PI * r
+  const pct = value / total
+  return (
+    <svg width={size} height={size} viewBox={`0 0 ${size} ${size}`}>
+      <circle cx={size / 2} cy={size / 2} r={r} stroke="#DCD6F7" strokeWidth={stroke} fill="none" />
+      <circle cx={size / 2} cy={size / 2} r={r} stroke="#5B4FE5" strokeWidth={stroke} fill="none"
+        strokeDasharray={c} strokeDashoffset={c * (1 - pct)} strokeLinecap="round"
+        transform={`rotate(-90 ${size / 2} ${size / 2})`} />
     </svg>
-    <span style={{ fontSize: 20, fontWeight: 800, color: '#FF6B35', letterSpacing: -0.5 }}>bounce</span>
-  </div>
-)
+  )
+}
+
+const tasksData = [
+  { id: 1, title: 'Order security tags & signage', desc: 'Make your store stand out to your customers and make sure bags are always tagged', done: false, cta: 'Order', path: '/store/signage' },
+  { id: 2, title: 'Connect your bank account', desc: 'Connect your bank account to Stripe to get paid', done: true, cta: 'Connect', path: null },
+  { id: 3, title: 'Add your store hours', desc: 'Let customers know when you are open for drop-off and pick-up', done: true, cta: null, path: null },
+  { id: 4, title: 'Upload storefront photos', desc: 'Photos help customers recognize your store', done: true, cta: null, path: null },
+  { id: 5, title: 'Set your bag capacity', desc: 'Tell us how many bags you can store at once', done: true, cta: null, path: null },
+  { id: 6, title: 'Complete your profile', desc: 'Add your contact details so we can reach you', done: true, cta: null, path: null },
+]
 
 export default function Home() {
   const navigate = useNavigate()
-  const BellIcon = () => (
-    <button onClick={() => navigate('/notifications')} style={{ background: 'none', border: 'none', cursor: 'pointer', position: 'relative', padding: 4 }}>
-      <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-        <path d="M12 2C10.3 2 9 3.3 9 5C6.1 5.9 4 8.7 4 12V17L2 19V20H22V19L20 17V12C20 8.7 17.9 5.9 15 5C15 3.3 13.7 2 12 2Z" stroke="#1A1A1A" strokeWidth="2" strokeLinejoin="round"/>
-        <path d="M10 20C10 21.1 10.9 22 12 22C13.1 22 14 21.1 14 20" stroke="#1A1A1A" strokeWidth="2"/>
-      </svg>
-      <span style={{ position: 'absolute', top: 0, right: 0, background: '#FF6B35', color: 'white', borderRadius: '50%', width: 16, height: 16, fontSize: 10, fontWeight: 700, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>5</span>
+  const [showAllTasks, setShowAllTasks] = useState(false)
+  const incompleteTasks = tasksData.filter(t => !t.done)
+  const completedCount = tasksData.filter(t => t.done).length
+  const visibleTasks = showAllTasks ? tasksData : incompleteTasks
+
+  const ChatButton = () => (
+    <button onClick={() => navigate('/messages')} style={{ background: 'white', border: '1px solid #E8E6F0', borderRadius: '50%', width: 40, height: 40, cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+      <IconChat size={20} />
     </button>
   )
+  const BellButton = () => (
+    <button onClick={() => navigate('/notifications')} style={{ background: 'white', border: '1px solid #E8E6F0', borderRadius: '50%', width: 40, height: 40, cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', position: 'relative' }}>
+      <IconBell size={20} />
+      <span className="notif-dot" />
+    </button>
+  )
+
   return (
     <Layout>
-      <Header title={<BounceLogo />} rightContent={<BellIcon />} />
+      <Header
+        title={<span style={{ fontSize: 26, fontWeight: 800, color: '#16151C', letterSpacing: -0.6 }}>Hi, Amit!</span>}
+        rightContent={<div style={{ display: 'flex', gap: 8 }}><ChatButton /><BellButton /></div>}
+      />
       <div style={{ padding: '16px' }}>
-        <div style={{ marginBottom: 16 }}>
-          <h1 style={{ fontSize: 24, fontWeight: 700, color: '#1A1A1A' }}>Hi, Amit! 👋</h1>
+        <div style={{ display: 'flex', gap: 8, marginBottom: 16, overflowX: 'auto' }}>
+          <button onClick={() => navigate('/store/signage')} style={{ display: 'flex', alignItems: 'center', gap: 6, background: 'white', border: '1px solid #E8E6F0', borderRadius: 20, padding: '8px 14px', fontSize: 13, fontWeight: 500, cursor: 'pointer', color: '#16151C', flexShrink: 0 }}>
+            <IconTag size={15} /> Link Signage
+          </button>
+          <button style={{ display: 'flex', alignItems: 'center', gap: 6, background: 'white', border: '1px solid #E8E6F0', borderRadius: 20, padding: '8px 14px', fontSize: 13, fontWeight: 500, cursor: 'pointer', color: '#16151C', flexShrink: 0 }}>
+            <IconClock size={15} /> Add Holidays/Vacations
+          </button>
         </div>
-        <div style={{ display: 'flex', gap: 8, marginBottom: 16 }}>
-          <button onClick={() => navigate('/store/signage')} style={{ background: '#F5F5F5', border: 'none', borderRadius: 20, padding: '8px 14px', fontSize: 13, fontWeight: 500, cursor: 'pointer' }}>📶 Link Signage</button>
-          <button style={{ background: '#F5F5F5', border: 'none', borderRadius: 20, padding: '8px 14px', fontSize: 13, fontWeight: 500, cursor: 'pointer' }}>📅 Add Holidays/Vacations</button>
-        </div>
-        <div className="card" style={{ marginBottom: 12 }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 12 }}>
-            <span style={{ fontSize: 20 }}>🚀</span>
-            <span style={{ fontSize: 15, fontWeight: 600 }}>Unlocked Boosts</span>
+
+        <div style={{ background: '#F1EEFC', borderRadius: 16, padding: 16, marginBottom: 12, display: 'flex', flexDirection: 'column', gap: 4 }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 14 }}>
+            <div style={{ position: 'relative', width: 56, height: 56, flexShrink: 0 }}>
+              <ProgressRing value={5} total={10} />
+              <div style={{ position: 'absolute', inset: 0, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                <div style={{ width: 34, height: 34, borderRadius: '50%', background: '#E4DFFA', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                  <svg width="17" height="17" viewBox="0 0 24 24" fill="none"><path d="M12 2L14.5 8.5L21 9.5L16 14L17.5 20.5L12 17L6.5 20.5L8 14L3 9.5L9.5 8.5L12 2Z" stroke="#5B4FE5" strokeWidth="1.7" strokeLinejoin="round"/></svg>
+                </div>
+              </div>
+            </div>
+            <div>
+              <div style={{ fontSize: 15, fontWeight: 700, color: '#16151C' }}>Unlocked Boosts</div>
+              <div style={{ fontSize: 22, fontWeight: 800, color: '#16151C' }}>5 of 10</div>
+            </div>
           </div>
-          <div style={{ fontSize: 32, fontWeight: 800, color: '#FF6B35', marginBottom: 8 }}>5 of 10</div>
-          <div className="progress-bar" style={{ marginBottom: 10 }}><div className="progress-fill" style={{ width: '50%' }} /></div>
-          <button onClick={() => navigate('/boosts')} style={{ background: 'none', border: 'none', color: '#FF6B35', fontSize: 13, fontWeight: 500, cursor: 'pointer', padding: 0 }}>See how to unlock more &gt;</button>
+          <button onClick={() => navigate('/boosts')} className="link-text" style={{ marginTop: 6, textAlign: 'left' }}>See how to unlock more &gt;</button>
         </div>
+
         <div className="orange-banner" style={{ marginBottom: 16 }}>
-          <span style={{ fontSize: 14, fontWeight: 600, flex: 1, marginRight: 8 }}>🚀 You have Boosts waiting for activation!</span>
-          <button onClick={() => navigate('/boosts/5')} style={{ background: 'white', color: '#FF6B35', border: 'none', borderRadius: 8, padding: '8px 14px', fontSize: 13, fontWeight: 700, cursor: 'pointer', flexShrink: 0 }}>Activate</button>
+          <span style={{ fontSize: 14, fontWeight: 500, flex: 1, marginRight: 8 }}>You have Boosts waiting for activation! <button onClick={() => navigate('/boosts/5')} className="link-text" style={{ fontSize: 14 }}>Activate</button></span>
         </div>
+
         <div style={{ marginBottom: 16 }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 4 }}>
             <span className="section-header" style={{ margin: 0 }}>Pending Tasks</span>
-            <span style={{ background: '#FF6B35', color: 'white', borderRadius: '50%', width: 20, height: 20, fontSize: 12, fontWeight: 700, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>2</span>
+            {incompleteTasks.length > 0 && (
+              <span style={{ background: '#5B4FE5', color: 'white', borderRadius: '50%', width: 20, height: 20, fontSize: 12, fontWeight: 700, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>{incompleteTasks.length}</span>
+            )}
           </div>
-          <div style={{ fontSize: 13, color: '#757575', marginBottom: 12, lineHeight: 1.4 }}>Complete all tasks to unlock benefits and boost your earnings!</div>
-          <div className="card" style={{ marginBottom: 10 }}>
-            <div style={{ display: 'flex', gap: 12 }}>
-              <span style={{ fontSize: 24, flexShrink: 0 }}>🏷️</span>
-              <div style={{ flex: 1 }}>
-                <div style={{ fontSize: 14, fontWeight: 600, marginBottom: 4 }}>Order security tags &amp; signage</div>
-                <div style={{ fontSize: 13, color: '#757575', lineHeight: 1.4, marginBottom: 12 }}>Make your store stand out to your customers and make sure bags are always tagged</div>
-                <button onClick={() => navigate('/store/signage')} className="btn-orange-outline" style={{ width: 'auto' }}>Order</button>
+          <div style={{ fontSize: 13, color: '#6B6B70', marginBottom: 12, lineHeight: 1.4 }}>Complete all tasks to unlock benefits and boost your earnings!</div>
+
+          {visibleTasks.map(task => (
+            <div key={task.id} className="card" style={{ marginBottom: 10, opacity: task.done && !showAllTasks ? 0.6 : 1 }}>
+              <div style={{ display: 'flex', gap: 12 }}>
+                <div style={{ flexShrink: 0, marginTop: 2 }}>
+                  {task.done ? (
+                    <div style={{ width: 22, height: 22, borderRadius: '50%', background: '#16151C', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                      <svg width="12" height="12" viewBox="0 0 24 24" fill="none"><path d="M5 13L10 18L19 7" stroke="white" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"/></svg>
+                    </div>
+                  ) : (
+                    <div style={{ width: 22, height: 22, borderRadius: '50%', border: '2px solid #D8D5E8' }} />
+                  )}
+                </div>
+                <div style={{ flex: 1 }}>
+                  <div style={{ fontSize: 14, fontWeight: 600, marginBottom: 4 }}>{task.title}</div>
+                  <div style={{ fontSize: 13, color: '#6B6B70', lineHeight: 1.4, marginBottom: task.cta && !task.done ? 12 : 0 }}>{task.desc}</div>
+                  {task.cta && !task.done && <button onClick={() => task.path && navigate(task.path)} className="btn-orange-outline" style={{ width: 'auto' }}>{task.cta}</button>}
+                </div>
               </div>
             </div>
-          </div>
-          <div className="card">
-            <div style={{ display: 'flex', gap: 12 }}>
-              <span style={{ fontSize: 24, flexShrink: 0 }}>🏦</span>
-              <div style={{ flex: 1 }}>
-                <div style={{ fontSize: 14, fontWeight: 600, marginBottom: 4 }}>Connect your bank account</div>
-                <div style={{ fontSize: 13, color: '#757575', lineHeight: 1.4, marginBottom: 12 }}>Connect your bank account to Stripe to get paid</div>
-                <button className="btn-orange-outline" style={{ width: 'auto' }}>Connect</button>
-              </div>
-            </div>
-          </div>
+          ))}
+
+          {completedCount > 0 && (
+            <button onClick={() => setShowAllTasks(s => !s)} className="link-text" style={{ display: 'flex', alignItems: 'center', gap: 4 }}>
+              {showAllTasks ? 'Hide completed tasks' : `Show all tasks (${tasksData.length})`}
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" style={{ transform: showAllTasks ? 'rotate(180deg)' : 'none' }}><path d="M6 9L12 15L18 9" stroke="#5B4FE5" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"/></svg>
+            </button>
+          )}
         </div>
-        <button onClick={() => navigate('/check-in-out')} className="btn-blue" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8, marginBottom: 4 }}>
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><rect x="3" y="3" width="18" height="18" rx="2" stroke="white" strokeWidth="2"/><path d="M7 7H10V10H7ZM14 7H17V10H14ZM7 14H10V17H7ZM14 14V17M17 14H14V17H17" stroke="white" strokeWidth="1.5"/></svg>
-          Check in / out
+
+        <div style={{ background: '#F1EEFC', borderRadius: 16, padding: 20, marginBottom: 16, position: 'relative', overflow: 'hidden' }}>
+          <div style={{ fontSize: 17, fontWeight: 800, marginBottom: 8 }}>You're missing an A3 sticker</div>
+          <div style={{ fontSize: 14, color: '#16151C', marginBottom: 16, maxWidth: '75%' }}>Partners with A3 stickers see a 25% revenue increase.</div>
+          <button onClick={() => navigate('/store/signage')} className="btn-orange-outline" style={{ width: 'auto' }}>Order now</button>
+        </div>
+
+        <button onClick={() => navigate('/account')} className="support-link" style={{ marginBottom: 12 }}>Have questions? Contact our support team</button>
+
+        <button onClick={() => navigate('/check-in-out')} className="btn-blue" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8 }}>
+          <IconGrid size={18} />
+          Check in/out
         </button>
       </div>
     </Layout>

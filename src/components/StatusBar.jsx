@@ -1,7 +1,7 @@
 export default function StatusBar({ bg = 'white' }) {
   const textColor = bg === 'white' || !bg ? '#1A1A1A' : 'white'
   return (
-    <div style={{ height: 44, background: bg, display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '0 18px', flexShrink: 0 }}>
+    <div className="status-bar" style={{ height: 44, background: bg, display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '0 18px', flexShrink: 0 }}>
       <span style={{ fontSize: 15, fontWeight: 600, color: textColor, letterSpacing: -0.3 }}>09:32</span>
       <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
         {/* Signal bars */}

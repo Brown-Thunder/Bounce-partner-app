@@ -1,5 +1,6 @@
 import { Routes, Route } from 'react-router-dom'
 import Home from './screens/Home'
+import Messages from './screens/Messages'
 import Notifications from './screens/Notifications'
 import Bookings from './screens/Bookings'
 import BookingDetail from './screens/BookingDetail'
@@ -12,14 +13,15 @@ import BoostDetail from './screens/BoostDetail'
 import Account from './screens/Account'
 import Reviews from './screens/Reviews'
 import Earnings from './screens/Earnings'
-import AccountNotifications from './screens/AccountNotifications'
-import Affiliates from './screens/Affiliates'
+import Profile from './screens/Profile'
 import WhatsNew from './screens/WhatsNew'
+import Users from './screens/Users'
 
 export default function App() {
   return (
     <Routes>
       <Route path="/" element={<Home />} />
+      <Route path="/messages" element={<Messages />} />
       <Route path="/notifications" element={<Notifications />} />
       <Route path="/bookings" element={<Bookings />} />
       <Route path="/bookings/:id" element={<BookingDetail />} />
@@ -32,9 +34,9 @@ export default function App() {
       <Route path="/account" element={<Account />} />
       <Route path="/account/reviews" element={<Reviews />} />
       <Route path="/account/earnings" element={<Earnings />} />
-      <Route path="/account/notifications" element={<AccountNotifications />} />
-      <Route path="/account/affiliates" element={<Affiliates />} />
+      <Route path="/account/profile" element={<Profile />} />
       <Route path="/account/whats-new" element={<WhatsNew />} />
+      <Route path="/account/users" element={<Users />} />
     </Routes>
   )
 }

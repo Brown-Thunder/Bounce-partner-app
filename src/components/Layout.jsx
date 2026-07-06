@@ -3,12 +3,15 @@ import BottomNav from './BottomNav'
 
 export default function Layout({ children, showNav = true, statusBg }) {
   return (
-    <div className="app-wrapper">
-      <StatusBar bg={statusBg} />
-      <div className={`screen-content ${showNav ? '' : 'no-nav'}`}>
-        {children}
+    <div className="device-frame">
+      <div className="device-notch" />
+      <div className="app-wrapper">
+        <StatusBar bg={statusBg} />
+        <div className={`screen-content ${showNav ? '' : 'no-nav'}`}>
+          {children}
+        </div>
+        {showNav && <BottomNav />}
       </div>
-      {showNav && <BottomNav />}
     </div>
   )
 }

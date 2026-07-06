@@ -3,6 +3,20 @@ import Layout from '../components/Layout'
 import Header from '../components/Header'
 import RequirementRow from '../components/RequirementRow'
 import { boostsData } from '../data/boosts'
+import { IconPiggyBank, IconCardExchange, IconWindowSearch, IconSignage, IconTicket, IconSupport, IconPlane, IconLock, IconCheckCircle } from '../components/icons'
+
+const iconMap = {
+  piggy: IconPiggyBank,
+  tip: IconCardExchange,
+  walk: IconCardExchange,
+  card: IconCardExchange,
+  marketing: IconSignage,
+  search: IconWindowSearch,
+  signage: IconSignage,
+  early: IconPlane,
+  support: IconSupport,
+  ticket: IconTicket,
+}
 
 export default function BoostDetail() {
   const { id } = useParams()
@@ -13,42 +27,41 @@ export default function BoostDetail() {
   const isActive = boost.status === 'active'
   const metCount = boost.requirements.filter(r => r.met).length
   const totalCount = boost.requirements.length
-  const CloseButton = () => (
-    <button onClick={() => navigate('/boosts')} style={{ background: 'none', border: 'none', cursor: 'pointer', padding: 4 }}>
-      <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M18 6L6 18M6 6L18 18" stroke="#757575" strokeWidth="2" strokeLinecap="round"/></svg>
-    </button>
-  )
+  const Icon = iconMap[boost.icon] || IconPiggyBank
+
   return (
     <Layout showNav={false}>
-      <Header title={boost.name} showBack rightContent={<CloseButton />} />
-      <div style={{ height: 180, background: isLocked ? 'linear-gradient(135deg, #F0EDF5, #E0D8ED)' : isActive ? 'linear-gradient(135deg, #E8F5E9, #C8E6C9)' : 'linear-gradient(135deg, #FFF3ED, #FFE0CC)', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', position: 'relative', flexShrink: 0, gap: 8 }}>
-        <span style={{ fontSize: 56 }}>{boost.emoji}</span>
+      <Header title={boost.name} showClose />
+      <div style={{ height: 200, background: '#F1EEFC', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', position: 'relative', flexShrink: 0, gap: 12 }}>
+        <div style={{ width: 96, height: 96, borderRadius: '50%', background: isLocked ? '#E4E1EF' : 'white', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+          <Icon size={44} color={isLocked ? '#B7B4C9' : '#5B4FE5'} />
+        </div>
         {isLocked && (
-          <div style={{ display: 'flex', alignItems: 'center', gap: 6, background: 'white', borderRadius: 20, padding: '4px 12px', boxShadow: '0 2px 8px rgba(0,0,0,0.12)' }}>
-            <span style={{ fontSize: 14 }}>🔒</span>
-            <span style={{ fontSize: 13, fontWeight: 700, color: '#D32F2F' }}>LOCKED</span>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 6, background: 'white', borderRadius: 20, padding: '5px 14px', boxShadow: '0 2px 8px rgba(0,0,0,0.08)' }}>
+            <IconLock size={13} color="#6B6B70" />
+            <span style={{ fontSize: 13, fontWeight: 700, color: '#6B6B70' }}>LOCKED</span>
           </div>
         )}
         {isActive && (
-          <div style={{ display: 'flex', alignItems: 'center', gap: 6, background: 'white', borderRadius: 20, padding: '4px 12px', boxShadow: '0 2px 8px rgba(0,0,0,0.12)' }}>
-            <span style={{ fontSize: 13, fontWeight: 700, color: '#2E7D32' }}>✓ ACTIVE</span>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 6, background: 'white', borderRadius: 20, padding: '5px 14px', boxShadow: '0 2px 8px rgba(0,0,0,0.08)' }}>
+            <span style={{ fontSize: 13, fontWeight: 700, color: '#1E8E5A' }}>✓ ACTIVE</span>
           </div>
         )}
         {isReady && (
-          <div style={{ display: 'flex', alignItems: 'center', gap: 6, background: 'white', borderRadius: 20, padding: '4px 12px', boxShadow: '0 2px 8px rgba(0,0,0,0.12)' }}>
-            <span style={{ fontSize: 13, fontWeight: 700, color: '#FF6B35' }}>ACTIVATE</span>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 6, background: 'white', borderRadius: 20, padding: '5px 14px', boxShadow: '0 2px 8px rgba(0,0,0,0.08)' }}>
+            <span style={{ fontSize: 13, fontWeight: 700, color: '#5B4FE5' }}>ACTIVATE</span>
           </div>
         )}
       </div>
       <div style={{ padding: '20px 16px', paddingBottom: 90 }}>
         <div style={{ marginBottom: 20 }}>
           <div className="section-header">What this unlocks</div>
-          <p style={{ fontSize: 14, color: '#757575', lineHeight: 1.6 }}>{boost.description}</p>
+          <p style={{ fontSize: 14, color: '#6B6B70', lineHeight: 1.6 }}>{boost.description}</p>
           {boost.previewFeatures && (
             <div style={{ marginTop: 12 }}>
               {boost.previewFeatures.map(f => (
-                <div key={f} style={{ display: 'flex', alignItems: 'center', gap: 8, padding: '6px 0' }}>
-                  <span style={{ color: '#2E7D32', fontSize: 14, fontWeight: 600 }}>✓</span>
+                <div key={f} style={{ display: 'flex', alignItems: 'flex-start', gap: 8, padding: '6px 0' }}>
+                  <span style={{ color: '#16151C', fontSize: 14, fontWeight: 700, flexShrink: 0 }}>✓</span>
                   <span style={{ fontSize: 14 }}>{f}</span>
                 </div>
               ))}
@@ -56,13 +69,13 @@ export default function BoostDetail() {
           )}
         </div>
         {boost.rateCard && (
-          <div className="card" style={{ marginBottom: 20, background: '#FFF3ED' }}>
+          <div style={{ marginBottom: 20 }}>
             {boost.rateCard.map(r => (
-              <div key={r.label} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '8px 0', borderBottom: '1px solid #FFE0CC' }}>
+              <div key={r.label} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '10px 0', borderBottom: '1px solid #F0EFF7' }}>
                 <span style={{ fontSize: 14 }}>{r.label}</span>
                 <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
                   <span style={{ fontSize: 15, fontWeight: 700 }}>{r.boosted}</span>
-                  {r.diff && <span style={{ fontSize: 13, color: '#2E7D32', fontWeight: 600 }}>{r.diff}</span>}
+                  {r.diff && <span style={{ fontSize: 13, color: '#1E8E5A', fontWeight: 600 }}>{r.diff}</span>}
                 </div>
               </div>
             ))}
@@ -71,20 +84,24 @@ export default function BoostDetail() {
         <div style={{ marginBottom: 20 }}>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 4 }}>
             <div className="section-header" style={{ margin: 0 }}>Requirements</div>
-            <span style={{ fontSize: 14, fontWeight: 600, color: isActive ? '#2E7D32' : '#FF6B35' }}>{metCount}/{totalCount}</span>
+            <span style={{ fontSize: 12, fontWeight: 700, color: '#5B4FE5', background: '#DDD6F7', borderRadius: 20, padding: '3px 10px' }}>{metCount}/{totalCount}</span>
           </div>
-          <div style={{ fontSize: 13, color: '#9E9E9E', marginBottom: 12 }}>Requirement updates may take a few hours</div>
+          <div style={{ fontSize: 13, color: '#9E9CA8', marginBottom: 12 }}>Requirement updates may take a few hours</div>
           {boost.requirements.map((req, i) => <RequirementRow key={i} req={req} />)}
         </div>
       </div>
-      <div style={{ position: 'fixed', bottom: 0, left: '50%', transform: 'translateX(-50%)', width: '100%', maxWidth: 390, padding: '16px', background: 'white', borderTop: '1px solid #E8E8E8' }}>
-        {isActive && <button className="btn-green" disabled style={{ opacity: 0.9 }}>✓ Active</button>}
-        {isReady && <button className="btn-orange">Activate Boost</button>}
+      <div style={{ position: 'fixed', bottom: 0, left: '50%', transform: 'translateX(-50%)', width: '100%', maxWidth: 390, padding: '16px', background: 'white', borderTop: '1px solid #E8E6F0' }}>
+        {isActive && (
+          <>
+            <button className="btn-green" disabled>Active</button>
+          </>
+        )}
+        {isReady && <button className="btn-orange" onClick={() => navigate('/boosts')}>Activate Boost</button>}
         {isLocked && (
-          <button className="btn-grey" disabled style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 2, height: 'auto', paddingTop: 12, paddingBottom: 12 }}>
-            <span>Locked</span>
-            <span style={{ fontSize: 12, fontWeight: 400 }}>Meet requirements to unlock</span>
-          </button>
+          <>
+            <button className="btn-grey" disabled>Locked</button>
+            <div style={{ textAlign: 'center', fontSize: 12, color: '#9E9CA8', marginTop: 8 }}>Meet requirements to unlock</div>
+          </>
         )}
       </div>
     </Layout>
